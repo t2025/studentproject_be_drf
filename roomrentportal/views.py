@@ -15,7 +15,7 @@ from django.utils import timezone
 # Create your views here.
 #Signup method
 
-@api_view(['POST'])
+@api_view(['POST','OPTIONS'])
 
 def signup_view(request):
     if request.method=="POST":
