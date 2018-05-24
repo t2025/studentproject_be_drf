@@ -7,8 +7,8 @@ from rest_framework import viewsets,status,generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
-from .models import UserModel,HouseModel,SessionToken,ImageModel
-from .serializers import UserSerializer,LoginSerializer,HouseSerializer,ImageSerializer,AddToBookmarkSerializer
+from .models import UserModel,HouseModel,SessionToken,ImageModel,Bookmark
+from .serializers import UserSerializer,LoginSerializer,HouseSerializer,ImageSerializer,AddToBookmarkSerializer,GetBookmark
 from datetime import timedelta
 from django.utils import timezone
 
@@ -68,13 +68,13 @@ def house_view(request):
 #Get house objects
 @api_view(['GET'])
 def house_details_view(request):
-           if request.method=="GET":         
-            house=HouseModel.objects.all()
-            print(house)
-            serializer=HouseSerializer(house,many=True)
-            response=Response(serializer.data,status=status.HTTP_201_CREATED)
-            return response
-            
+           if request.method=="GET": 
+                    house=HouseModel.objects.all()
+                    print(house)
+                    serializer=HouseSerializer(house,many=True)
+                    response=Response(serializer.data,status=status.HTTP_201_CREATED)
+                    return response
+                    
 @api_view(['GET','POST'])
 def image_view(request):
     image=ImageModel.objects.create()
@@ -88,33 +88,6 @@ def image_view(request):
         serializer=ImageSerializer(img,many=True)
         return Response(serializer.data,status=status.HTTP_201_CREATED)
 
-
-@api_view(['GET'])
-def bookmarkview(request):
-    try:
-        bookmark = HouseModel.objects.all().filter(add_to_bookmark=True)
-       
-        
-    except HouseModel.DoesNotExist:
-        return Response(status=status.HTTP_404_NOT_FOUND)
-
-    if request.method=='GET':
-        serializer=HouseSerializer(bookmark,many=True)
-        return Response(serializer.data,status=status.HTTP_201_CREATED)
-@api_view(['PUT','DELETE'])
-def udbookmark(request,format=None):
-    uid=request.data.get('id')
-    print(uid)
-    houseobj=HouseModel.objects.get(id=uid)
-    if request.method=='PUT':
-        serializer=HouseSerializer(houseobj,data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data,status=status.HTTP_201_CREATED)
-    if request.method=='DELETE':
-        houseobj.delete()
-        return Response(status=status.HTTP_404_NOT_FOUND)        
-
 @api_view(['GET'])
 def your_post_view(request):
     email=request.data.get('posted_by')
@@ -123,6 +96,21 @@ def your_post_view(request):
         serializer=HouseSerializer(houseobj,many=True)
         return Response(serializer.data,status=status.HTTP_201_CREATED)
         
+@api_view(['GET'])
+def get_bookmark(request):
+    email=request.data.get('user_email')
+    if request.method=='GET':
+        bookmarkobj=Bookmark.objects.all().filter(user_email=email)
+        serializer=GetBookmark(bookmarkobj)
+        return Response(serializer.data,status=status.HTTP_201_CREATED)
+    return Response(serializer.data,status=status.HTTP_400_BAD_REQUEST)
+    if request.method=='DELETE':
+        request.data.get()
+        bookmarkobj=Bookmark.objects.all().filter(user_email=email)
+
+
+
+
 
         
 

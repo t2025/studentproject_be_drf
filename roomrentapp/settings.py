@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'roomrentportal',
     'rest_framework',
     'rest_framework.authtoken',
-    'corsheaders',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [

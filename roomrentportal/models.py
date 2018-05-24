@@ -24,21 +24,27 @@ class SessionToken(models.Model):
         self.session_token = uuid.uuid4()
 
 class HouseModel(models.Model):
-    city_name=models.CharField(max_length=500,default='Jaipur')
-    area_name=models.CharField(max_length=500,default='Model Town')
-    address=models.CharField(max_length=500,default='Trimurti Apartments')
-    amenities=models.CharField(max_length=700,default='security')
-    furnishing=models.CharField(max_length=500,default='Unfurnished')
-    available_for=models.CharField(max_length=500,default='Families')
-    price=models.IntegerField(default=0)
-    bedroom_no=models.IntegerField(default=1)
-    house_type=models.CharField(max_length=500,default='Flat')
+    city_name=models.CharField(max_length=500,null=True)
+    area_name=models.CharField(max_length=500,null=True)
+    area_name=models.CharField(max_length=500,null=True)
+    address=models.CharField(max_length=500,null=True)
+    amenities=models.CharField(max_length=700,null=True)
+    furnishing=models.CharField(max_length=500,null=True)
+    available_for=models.CharField(max_length=500,null=True)
+    price=models.IntegerField(null=True)
+    bedroom_no=models.IntegerField(null=True)
+    house_type=models.CharField(max_length=500,null=True)
     add_to_bookmark=models.BooleanField(default=False)
-    posted_by=models.EmailField(default='abc@gmail.com')
+    posted_by=models.EmailField(null=True)
   
 class ImageModel(models.Model):
     h_id=models.CharField(max_length=100,default=None)
-    image=models.ImageField(default=None)
+    image=models.ImageField(default=None,null=True)
+
+class Bookmark(models.Model):
+    user_email=models.EmailField(null=True)
+    house_id=models.CharField(max_length=100,default=0)
+
 
 
 

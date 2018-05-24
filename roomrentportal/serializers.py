@@ -1,15 +1,12 @@
 from rest_framework import serializers,status
-from .models import UserModel,HouseModel,ImageModel
+from .models import UserModel,HouseModel,ImageModel,Bookmark
 #User Serialazable model
-class UserSerializer(serializers.Serializer):
-    name=serializers.CharField()
-    email=serializers.EmailField()
-    password=serializers.CharField()
-    contact_no=serializers.CharField()
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=UserModel
+        fields=('id','name','email','password','contact_no')
 
-    def create(self,validated_data):
-
-        return UserModel.objects.create(**validated_data)
+   
 
 #Login Serializbale Model
 class LoginSerializer(serializers.Serializer):
@@ -34,4 +31,8 @@ class AddToBookmarkSerializer(serializers.ModelSerializer):
     class Meta:
         model=HouseModel
         fields=('id','add_to_bookmark')
+class GetBookmark(serializers.ModelSerializer):
+    class Meta:
+        model=Bookmark 
+        fields=('user_email','house_id')       
 

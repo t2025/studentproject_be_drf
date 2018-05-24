@@ -31,9 +31,8 @@ urlpatterns = [
     url(r'^login/',views.login_view),
     url(r'^housedetails',views.house_details_view),
     url(r'^image/',views.image_view),
-    url(r'^addbookmark/',views.bookmarkview),
-     url(r'^udbookmark/', views.udbookmark),
-    url(r'^yourpost/',views.your_post_view)
+    url(r'^getbookmarks/',views.get_bookmark)
+
 ]
 if settings.DEBUG:
   urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
