@@ -38,7 +38,7 @@ class HouseModel(models.Model):
     posted_by=models.EmailField(null=True)
   
 class ImageModel(models.Model):
-    h_id=models.CharField(max_length=100,default=None)
+    h_id=models.CharField(max_length=100,null=False)
     image=models.ImageField(default=None,null=True)
 
 class Bookmark(models.Model):

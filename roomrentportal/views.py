@@ -98,15 +98,16 @@ def your_post_view(request):
         
 @api_view(['GET'])
 def get_bookmark(request):
+    house_id=request.data.get('house_id')
     email=request.data.get('user_email')
     if request.method=='GET':
-        bookmarkobj=Bookmark.objects.all().filter(user_email=email)
+        bookmarkobj=Bookmark.objects.all().filter(user_email=email,house_id=house_id)
         serializer=GetBookmark(bookmarkobj)
         return Response(serializer.data,status=status.HTTP_201_CREATED)
     return Response(serializer.data,status=status.HTTP_400_BAD_REQUEST)
     if request.method=='DELETE':
         request.data.get()
-        bookmarkobj=Bookmark.objects.all().filter(user_email=email)
+        bookmarkobj=Bookmark.objects.all().filter(user_email=email,house_id=house_id)
 
 
 
