@@ -7,8 +7,8 @@ from rest_framework import viewsets,status,generics
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
-from .models import UserModel,HouseModel,SessionToken,ImageModel,Bookmark
-from .serializers import UserSerializer,LoginSerializer,HouseSerializer,ImageSerializer,AddToBookmarkSerializer,GetBookmark
+from .models import UserModel,HouseModel,SessionToken,ImageModel,AddBookmark
+from .serializers import UserSerializer,LoginSerializer,HouseSerializer,ImageSerializer,AddToBookmarkSerializer
 from datetime import timedelta
 from django.utils import timezone
 
@@ -95,19 +95,50 @@ def your_post_view(request):
         houseobj=HouseModel.objects.all().filter(posted_by=email)
         serializer=HouseSerializer(houseobj,many=True)
         return Response(serializer.data,status=status.HTTP_201_CREATED)
-        
-@api_view(['GET'])
-def get_bookmark(request):
-    house_id=request.data.get('house_id')
-    email=request.data.get('user_email')
-    if request.method=='GET':
-        bookmarkobj=Bookmark.objects.all().filter(user_email=email,house_id=house_id)
-        serializer=GetBookmark(bookmarkobj)
-        return Response(serializer.data,status=status.HTTP_201_CREATED)
-    return Response(serializer.data,status=status.HTTP_400_BAD_REQUEST)
+@api_view(['DELETE'])
+def post_delete_view(request):
+    id=request.data.get('id')
+    houseobj=HouseModel.objects.get(id=id)
     if request.method=='DELETE':
-        request.data.get()
-        bookmarkobj=Bookmark.objects.all().filter(user_email=email,house_id=house_id)
+        serializer=HouseSerializer
+        houseobj.delete()
+        return Response(status=status.HTTP_200_OK)
+    
+
+@api_view(['POST'])
+def post_bookmark(request):    
+    if request.method=='POST': 
+        user_email=request.data.get('user_email')
+        house_id=request.data.get('house_id')
+        add_to_bookmark=request.data.get('add_to_bookmark') 
+        bookmark=AddBookmark(user_email=user_email,house_id=house_id,add_to_bookmark=add_to_bookmark)
+        serializer=AddToBookmarkSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            bookmark.save()
+            print(bookmark.user_email)
+            print(bookmark.house_id)
+            print(serializer)
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET','DELETE'])
+def get_bookmarks(request):
+    user_email=request.data.get('user_email')
+    house_id=request.data.get('house_id')
+    if request.method=='GET':
+       bookmarkobj=AddBookmark.objects.all().filter(user_email=user_email,house_id=house_id)
+       print(bookmarkobj)
+       serializer=AddToBookmarkSerializer(bookmarkobj,many=True)
+       print(serializer.data)
+       return Response(serializer.data,status=status.HTTP_200_OK)
+    
+    if request.method=='DELETE':
+        id=request.data.get('id')
+        bookmarkobj=AddBookmark.objects.get(id=id)
+        bookmarkobj.delete()
+        return Response(status=status.HTTP_200_OK)
+
 
 
 

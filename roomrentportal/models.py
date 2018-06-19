@@ -34,16 +34,16 @@ class HouseModel(models.Model):
     price=models.IntegerField(null=True)
     bedroom_no=models.IntegerField(null=True)
     house_type=models.CharField(max_length=500,null=True)
-    add_to_bookmark=models.BooleanField(default=False)
     posted_by=models.EmailField(null=True)
   
 class ImageModel(models.Model):
     h_id=models.CharField(max_length=100,null=False)
     image=models.ImageField(default=None,null=True)
 
-class Bookmark(models.Model):
+class AddBookmark(models.Model):
     user_email=models.EmailField(null=True)
     house_id=models.CharField(max_length=100,default=0)
+    add_to_bookmark=models.BooleanField(default=False)
 
 
 

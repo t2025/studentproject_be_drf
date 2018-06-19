@@ -1,0 +1,36 @@
+
+class AddToBookmarkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=BookmarkAdd
+        fields=('user_email','house_id','add_to_bookmark')
+
+@api_view(['POST'])
+def post_bookmark(request):    
+    if request.method=='POST':  
+        bookmark=BookmarkAdd.objects.create()  
+        serializer=AddToBookmarkSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            bookmark.save()
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+
+        
+@api_view(['GET'])
+def get_bookmark(request):
+    house_id=request.data.get('house_id')
+    email=request.data.get('user_email')
+    if request.method=='GET':
+        bookmarkobj=BookmarkAdd.objects.all().filter(house_id=house_id,user_email=email)
+        print(bookmarkobj)
+        serializer=AddToBookmarkSerializer(bookmarkobj)
+        return Response(serializer.data,status=status.HTTP_201_CREATED)
+    return Response(serializer.data,status=status.HTTP_400_BAD_REQUEST)
+    if request.method=='DELETE':
+        request.data.get()
+        bookmarkobj=BookmarkAdd.objects.all().filter(user_email=email,house_id=house_id)
+        bookmarkobj.delete()
+
+url(r'^addBookmark/',views.post_bookmark),
+    url(r'^getbookmarks/',views.get_bookmark),

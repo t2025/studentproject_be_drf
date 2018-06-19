@@ -31,7 +31,10 @@ urlpatterns = [
     url(r'^login/',views.login_view),
     url(r'^housedetails',views.house_details_view),
     url(r'^image/',views.image_view),
-    url(r'^getbookmarks/',views.get_bookmark)
+    url(r'^addBookmark/',views.post_bookmark),
+    url(r'^getbookmarks/',views.get_bookmarks),
+    url(r'^yourpost/', views.your_post_view),
+    url(r'^deletePost/', views.post_delete_view)
 
 ]
 if settings.DEBUG:

@@ -1,5 +1,5 @@
 from rest_framework import serializers,status
-from .models import UserModel,HouseModel,ImageModel,Bookmark
+from .models import UserModel,HouseModel,ImageModel,AddBookmark
 #User Serialazable model
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,7 +19,7 @@ class LoginSerializer(serializers.Serializer):
 class HouseSerializer(serializers.ModelSerializer):
     class Meta:
         model=HouseModel
-        fields=('id','city_name','area_name','address','amenities','furnishing','available_for','price','bedroom_no','house_type','add_to_bookmark','posted_by')
+        fields=('id','city_name','area_name','address','amenities','furnishing','available_for','price','bedroom_no','house_type','posted_by')
     
 class ImageSerializer(serializers.ModelSerializer):
     
@@ -29,10 +29,5 @@ class ImageSerializer(serializers.ModelSerializer):
 
 class AddToBookmarkSerializer(serializers.ModelSerializer):
     class Meta:
-        model=HouseModel
-        fields=('id','add_to_bookmark')
-class GetBookmark(serializers.ModelSerializer):
-    class Meta:
-        model=Bookmark 
-        fields=('user_email','house_id')       
-
+        model=AddBookmark
+        fields=('id','user_email','house_id','add_to_bookmark')
