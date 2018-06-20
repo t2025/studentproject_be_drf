@@ -124,13 +124,12 @@ def post_bookmark(request):
 
 @api_view(['GET','DELETE'])
 def get_bookmarks(request):
-    user_email=request.data.get('user_email')
-    house_id=request.data.get('house_id')
+    user_email=request.GET.get('user_email', '')
+    house_id=request.GET.get('house_id', '')
+    #print(request.GET.get('user_email', ''))
     if request.method=='GET':
        bookmarkobj=AddBookmark.objects.all().filter(user_email=user_email,house_id=house_id)
-       print(bookmarkobj)
        serializer=AddToBookmarkSerializer(bookmarkobj,many=True)
-       print(serializer.data)
        return Response(serializer.data,status=status.HTTP_200_OK)
     
     if request.method=='DELETE':
