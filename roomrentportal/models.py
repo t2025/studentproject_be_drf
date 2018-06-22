@@ -31,6 +31,7 @@ class HouseModel(models.Model):
     amenities=models.CharField(max_length=700,null=True)
     furnishing=models.CharField(max_length=500,null=True)
     available_for=models.CharField(max_length=500,null=True)
+    image_url=models.CharField(max_length=500,null=True)
     price=models.IntegerField(null=True)
     bedroom_no=models.IntegerField(null=True)
     house_type=models.CharField(max_length=500,null=True)

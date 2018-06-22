@@ -90,7 +90,8 @@ def image_view(request):
 
 @api_view(['GET'])
 def your_post_view(request):
-    email=request.data.get('posted_by')
+    email=request.GET.get('email', '')
+    print(email)
     if request.method=='GET':
         houseobj=HouseModel.objects.all().filter(posted_by=email)
         serializer=HouseSerializer(houseobj,many=True)

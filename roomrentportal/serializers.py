@@ -19,7 +19,7 @@ class LoginSerializer(serializers.Serializer):
 class HouseSerializer(serializers.ModelSerializer):
     class Meta:
         model=HouseModel
-        fields=('id','city_name','area_name','address','amenities','furnishing','available_for','price','bedroom_no','house_type','posted_by')
+        fields=('id','city_name','area_name','address','amenities','furnishing','available_for','image_url','price','bedroom_no','house_type','posted_by')
     
 class ImageSerializer(serializers.ModelSerializer):
     
