@@ -123,7 +123,7 @@ urllib3==1.22
 virtualenv==15.1.0
 virtualenv-clone==0.2.6
 wcwidth==0.1.7
-Werkzeug==0.13
+Werkzeug==0.15.3
 whitenoise==3.3.1
 widgetsnbextension==2.0.0
 win-unicode-console==0.5
